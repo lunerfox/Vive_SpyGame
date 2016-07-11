@@ -75,8 +75,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BulletImpact.cs" />
     <Compile Include="Assets\Scripts\DazeGun.cs" />
     <Compile Include="Assets\Scripts\RandomAgent.cs" />
+    <Compile Include="Assets\Scripts\ShockedCollider.cs" />
     <Compile Include="Assets\Scripts\UIAmmoUpdate.cs" />
     <Compile Include="Assets\Scripts\WaypointAgent.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="Assets\SteamVR\Scripts\SteamVR_Utils.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\MentalDreamsAssets\SoldierSoundsPack\ReadMe!.txt" />
     <None Include="Assets\SteamVR\Resources\SteamVR_AlphaOut.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_Blit.shader" />
     <None Include="Assets\SteamVR\Resources\SteamVR_BlitFlip.shader" />
