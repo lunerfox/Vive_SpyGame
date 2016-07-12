@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -77,10 +71,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\BulletImpact.cs" />
     <Compile Include="Assets\Scripts\DazeGun.cs" />
-    <Compile Include="Assets\Scripts\RandomAgent.cs" />
-    <Compile Include="Assets\Scripts\ShockedCollider.cs" />
+    <Compile Include="Assets\Scripts\Drone Logic\DroneManager.cs" />
+    <Compile Include="Assets\Scripts\Drone Logic\RandomAgent.cs" />
+    <Compile Include="Assets\Scripts\Drone Logic\ShockedCollider.cs" />
+    <Compile Include="Assets\Scripts\Drone Logic\WaypointAgent.cs" />
+    <Compile Include="Assets\Scripts\Teleporter.cs" />
     <Compile Include="Assets\Scripts\UIAmmoUpdate.cs" />
-    <Compile Include="Assets\Scripts\WaypointAgent.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_GazeTracker.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_LaserPointer.cs" />
     <Compile Include="Assets\SteamVR\Extras\SteamVR_Teleporter.cs" />

@@ -3,17 +3,18 @@ using System.Collections;
 
 public class ShockedCollider : MonoBehaviour {
 
+    DroneManager Drone;
+
     public float shockTime;         //Amount of time to set when the robot is shocked.
     private float timeTilEnable;    //This time is > 0 when the robot is shocked. Counts down to 0 and enables the robot again
-
     ParticleSystem shockParticle;
-
     public GameObject electricBuzz;
     AudioSource AS_electricBuzz;
 
     // Use this for initialization
     void Start()
     {
+        Drone = GetComponent<DroneManager>();
         shockParticle = GetComponentInChildren<ParticleSystem>();
         AS_electricBuzz = electricBuzz.GetComponent<AudioSource>();
     }
@@ -24,6 +25,7 @@ public class ShockedCollider : MonoBehaviour {
         if (timeTilEnable > 0) timeTilEnable -= Time.deltaTime;
         else
         {
+            Drone.IsShocked = false;
             GetComponent<NavMeshAgent>().Resume();
             GetComponent<BoxCollider>().enabled = true;
             shockParticle.Stop();
@@ -33,9 +35,10 @@ public class ShockedCollider : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision)
     {
-        print("Drone Hit by " + collision.collider.gameObject.name);
+        //print("Drone Hit by " + collision.collider.gameObject.name);
         if (collision.gameObject.tag == "Bullet")
         {
+            Drone.IsShocked = true;
             GetComponent<NavMeshAgent>().Stop();
             GetComponent<BoxCollider>().enabled = false;
             timeTilEnable = shockTime;

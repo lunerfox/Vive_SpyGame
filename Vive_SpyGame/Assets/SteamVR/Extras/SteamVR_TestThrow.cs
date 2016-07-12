@@ -7,6 +7,7 @@ public class SteamVR_TestThrow : MonoBehaviour
 	public GameObject prefab;
 	public Rigidbody attachPoint;
     public GameObject cameraRig;
+    public GameObject cameraScreen;
 
     SteamVR_TrackedObject trackedObj;
 	FixedJoint joint;
@@ -55,16 +56,26 @@ public class SteamVR_TestThrow : MonoBehaviour
 			}
 
 			rigidbody.maxAngularVelocity = rigidbody.angularVelocity.magnitude;
-		}
-        else if (joint == null && go != null && go.GetComponent<Rigidbody>().velocity.magnitude < 0.2)
+            //Destroy(go, 15.0f);
+        }
+        else if (joint == null && go != null && go.GetComponent<Rigidbody>().velocity.magnitude < 0.5)
         {
             //device.TriggerHapticPulse(3000);
-            go.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-            print("Teleporter has stopped moving at " + go.transform.position);
+            go.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+            //print("Teleporter has stopped moving at " + go.transform.position);
+            cameraScreen.transform.localScale = new Vector3(1, 1, 1);
             if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Grip)) {
                 print("Teleporting");
+                GetComponent<AudioSource>().Play();
                 cameraRig.transform.position = go.transform.position;
                 Destroy(go);
+                cameraScreen.transform.localScale = new Vector3(0, 0, 0);
+            }
+            if (device.GetTouchUp(SteamVR_Controller.ButtonMask.Trigger))
+            {
+                print("Teleport Cancelled");
+                Destroy(go);
+                cameraScreen.transform.localScale = new Vector3(0, 0, 0);
             }
         }
 	}

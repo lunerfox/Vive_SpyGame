@@ -1,27 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 [RequireComponent(typeof(NavMeshAgent))]
 
-public class WaypointAgent : MonoBehaviour {
+public class RandomAgent : MonoBehaviour {
 
     private NavMeshAgent agent;
-    public Vector3[] waypoints;
-    private int curIndex;
+    public GameObject droneSpotlight;
 
     private GameObject followTarget;
+
+    const float fadeToRate = 0.8f;
+    private float transition = 0;
 
     // Use this for initialization
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        curIndex = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        // Check if we've reached the destination
+        // Check if we've reached the destination or if we've spotted anyone
         if (!agent.pathPending)
         {
             if (agent.remainingDistance <= agent.stoppingDistance || followTarget != null)
@@ -37,35 +39,32 @@ public class WaypointAgent : MonoBehaviour {
 
     private void NewDestination()
     {
-        print("Drone moving to new Destination");
-        Vector3 newDest = waypoints[curIndex];
+        Vector3 newDest = Random.insideUnitSphere * 500f + new Vector3(139, 86f, -172f);
         NavMeshHit hit;
-        bool hasDestination = NavMesh.SamplePosition(newDest, out hit, 100f, 1);
 
         if (followTarget != null)
         {
-            print("Target Acquired");
+            print("Target Acquired at " + followTarget.transform.position);
             newDest = followTarget.transform.position;
         }
 
+        bool hasDestination = NavMesh.SamplePosition(newDest, out hit, 100f, 1);
         if (hasDestination)
         {
             agent.SetDestination(hit.position);
         }
-
-        curIndex++;
-        if (curIndex == waypoints.Length) {curIndex = 0;}
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        //print("Drone sees something");
         if (other.gameObject.tag == "MainCamera")
         {
+            if (transition <= 1) transition += Time.deltaTime * fadeToRate;
+            droneSpotlight.GetComponent<Light>().color = Color.red;
             print("Waypoint Drone is now engaged");
             followTarget = other.gameObject;
         }
     }
-
 }
-
 
