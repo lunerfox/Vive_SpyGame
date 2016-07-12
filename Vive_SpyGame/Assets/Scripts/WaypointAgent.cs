@@ -8,6 +8,8 @@ public class WaypointAgent : MonoBehaviour {
     public Vector3[] waypoints;
     private int curIndex;
 
+    private GameObject followTarget;
+
     // Use this for initialization
     void Start()
     {
@@ -22,7 +24,7 @@ public class WaypointAgent : MonoBehaviour {
         // Check if we've reached the destination
         if (!agent.pathPending)
         {
-            if (agent.remainingDistance <= agent.stoppingDistance)
+            if (agent.remainingDistance <= agent.stoppingDistance || followTarget != null)
             {
                 if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                 {
@@ -39,6 +41,13 @@ public class WaypointAgent : MonoBehaviour {
         Vector3 newDest = waypoints[curIndex];
         NavMeshHit hit;
         bool hasDestination = NavMesh.SamplePosition(newDest, out hit, 100f, 1);
+
+        if (followTarget != null)
+        {
+            print("Target Acquired");
+            newDest = followTarget.transform.position;
+        }
+
         if (hasDestination)
         {
             agent.SetDestination(hit.position);
@@ -47,6 +56,16 @@ public class WaypointAgent : MonoBehaviour {
         curIndex++;
         if (curIndex == waypoints.Length) {curIndex = 0;}
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "MainCamera")
+        {
+            print("Waypoint Drone is now engaged");
+            followTarget = other.gameObject;
+        }
+    }
+
 }
 
 

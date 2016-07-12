@@ -3,6 +3,9 @@ using System.Collections;
 
 public class SteamVR_Teleporter : MonoBehaviour
 {
+
+    public float maxTeleportDist;
+
     public enum TeleportType
     {
         TeleportTypeUseTerrain,
@@ -56,6 +59,8 @@ public class SteamVR_Teleporter : MonoBehaviour
 
             bool hasGroundTarget = false;
             float dist = 0f;
+            Vector3 normal = Vector3.zero;
+
             if (teleportType == TeleportType.TeleportTypeUseTerrain)
             {
                 RaycastHit hitInfo;
@@ -66,18 +71,21 @@ public class SteamVR_Teleporter : MonoBehaviour
             else if (teleportType == TeleportType.TeleportTypeUseCollider)
             {
                 RaycastHit hitInfo;
-                Physics.Raycast(ray, out hitInfo);
+                hasGroundTarget = Physics.Raycast(ray, out hitInfo);
                 dist = hitInfo.distance;
+                normal = hitInfo.normal;
             }
             else
             {
                 hasGroundTarget = plane.Raycast(ray, out dist);
             }
 
-            if (hasGroundTarget)
+            if (hasGroundTarget && normal == Vector3.up)
             {
+                
 				Vector3 headPosOnGround = new Vector3(SteamVR_Render.Top().head.localPosition.x, 0.0f, SteamVR_Render.Top().head.localPosition.z);
 				t.position = ray.origin + ray.direction * dist - new Vector3(t.GetChild(0).localPosition.x, 0f, t.GetChild(0).localPosition.z) - headPosOnGround;
+                print("Successfully Teleported to " + t.position + " at a distance of " + dist);
             }
         }
     }

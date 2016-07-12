@@ -25,6 +25,7 @@ public class ShockedCollider : MonoBehaviour {
         else
         {
             GetComponent<NavMeshAgent>().Resume();
+            GetComponent<BoxCollider>().enabled = true;
             shockParticle.Stop();
             AS_electricBuzz.Stop();
         }
@@ -33,11 +34,15 @@ public class ShockedCollider : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         print("Drone Hit by " + collision.collider.gameObject.name);
-        GetComponent<NavMeshAgent>().Stop();
-        timeTilEnable = shockTime;
-        shockParticle.Play();
-        AS_electricBuzz.Play();
-        //Instantiate(Explosion, transform.position, Quaternion.identity);
-        Destroy(collision.collider.gameObject);
+        if (collision.gameObject.tag == "Bullet(Clone)")
+        {
+            GetComponent<NavMeshAgent>().Stop();
+            GetComponent<BoxCollider>().enabled = false;
+            timeTilEnable = shockTime;
+            shockParticle.Play();
+            AS_electricBuzz.Play();
+            Destroy(collision.collider.gameObject);
+        }
+        
     }
 }

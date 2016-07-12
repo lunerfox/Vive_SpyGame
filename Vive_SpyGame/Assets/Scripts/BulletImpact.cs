@@ -16,6 +16,11 @@ public class BulletImpact : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         print("Bullet Hit by " + collision.collider.gameObject.name);
-        GetComponent<AudioSource>().Play();
+        if (collision.gameObject.tag == "MainCamera") { print("You got hit in the head, Bro!"); }
+        else
+        {
+            GetComponent<AudioSource>().Play();
+            Destroy(this.transform.gameObject);
+        }
     }
 }

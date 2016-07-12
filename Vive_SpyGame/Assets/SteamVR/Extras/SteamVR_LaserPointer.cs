@@ -25,6 +25,9 @@ public class SteamVR_LaserPointer : MonoBehaviour
     public event PointerEventHandler PointerIn;
     public event PointerEventHandler PointerOut;
 
+    public float modAngleX, modAngleY, modAngleZ;
+
+
     Transform previousContact = null;
 
 	// Use this for initialization
@@ -33,6 +36,7 @@ public class SteamVR_LaserPointer : MonoBehaviour
         holder = new GameObject();
         holder.transform.parent = this.transform;
         holder.transform.localPosition = Vector3.zero;
+        holder.transform.Rotate(modAngleX, modAngleY, modAngleZ);
 
         pointer = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pointer.transform.parent = holder.transform;
