@@ -21,6 +21,7 @@ public class BulletImpact : MonoBehaviour {
         {
             GetComponent<AudioSource>().Play();
             Destroy(this.transform.gameObject);
+            //Object.Destroy(this.transform.gameObject, 15.0f);
         }
     }
 }

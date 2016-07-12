@@ -37,7 +37,11 @@ public class RandomAgent : MonoBehaviour {
         Vector3 newDest = Random.insideUnitSphere * 500f + new Vector3(139, 86f, -172f);
         NavMeshHit hit;
 
-        if (followTarget != null) newDest = followTarget.transform.position;
+        if (followTarget != null)
+        {
+            print("Target Acquired");
+            newDest = followTarget.transform.position;
+        }
         
         bool hasDestination = NavMesh.SamplePosition(newDest, out hit, 100f, 1);
         if (hasDestination)

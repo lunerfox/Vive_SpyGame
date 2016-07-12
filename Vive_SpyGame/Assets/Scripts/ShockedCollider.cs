@@ -34,7 +34,7 @@ public class ShockedCollider : MonoBehaviour {
     void OnCollisionEnter(Collision collision)
     {
         print("Drone Hit by " + collision.collider.gameObject.name);
-        if (collision.gameObject.tag == "Bullet(Clone)")
+        if (collision.gameObject.tag == "Bullet")
         {
             GetComponent<NavMeshAgent>().Stop();
             GetComponent<BoxCollider>().enabled = false;
